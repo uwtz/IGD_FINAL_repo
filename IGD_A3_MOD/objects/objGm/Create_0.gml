@@ -1,3 +1,7 @@
+multiplayer = true;
+// ANY REFERENCE TO COMPUTER REFERES TO PLAYER2 IN CASE OF MULTIPLAYER
+
+
 handXOffset = sprite_get_width(sprCardBack) + 10;
 handYOffset = sprite_get_height(sprCardBack) + 10;
 deckYOffset = 4;
@@ -27,7 +31,6 @@ cleanCooldown = .1 * game_get_speed(gamespeed_fps);
 
 n = numCards;
 k = 0;
-// hey
 
 enum STATE
 {
@@ -125,7 +128,7 @@ for (var i=0; i<numCards; i++)
 	}
 	//show_debug_message(newCard.faces);
 	newCard.faceUp = false;
-	newCard.inPlayerHand = false;
+	newCard.inHand = HAND_OF.NOONE;
 	newCard.targetDepth = 0;
 	
 	ds_list_add(deck, newCard);
@@ -204,8 +207,8 @@ function Update()
 			
 					dealtCard.targetX = room_width/2 + (ds_list_size(computerHand)-2.5) * handXOffset;
 					dealtCard.targetY = room_height * .2;
-					dealtCard.inPlayerHand = false;
-					dealtCard.faceUp = false;
+					dealtCard.inHand = HAND_OF.COMPUTER;
+					dealtCard.faceUp = true;
 					dealtCard.playedBy = 2;
 				}
 				else if (ds_list_size(playerHand) < 4)
@@ -217,7 +220,7 @@ function Update()
 			
 					dealtCard.targetX = room_width/2 + (ds_list_size(playerHand)-2.5) * handXOffset;
 					dealtCard.targetY = room_height * .8;
-					dealtCard.inPlayerHand = true;
+					dealtCard.inHand = HAND_OF.PLAYER;
 					dealtCard.faceUp = true;
 					dealtCard.playedBy = 1;
 				}
@@ -244,46 +247,48 @@ function Update()
 		
 		case STATE.COMPUTER:
 			stopwatch++;
-			if (stopwatch >= computerCooldown)
+			if (!multiplayer)
 			{
-				stopwatch=0;
-				if (computerState == PLAY_STATE.SELECT_CARD)
+				if (stopwatch >= computerCooldown)
 				{
-					//audio_play_sound(sndPaper, 0, false);
-					randomize();
-					var _r =  int64(random(ds_list_size(computerHand)));
-					computerHandChosen = ds_list_find_value(computerHand,_r);
-					//show_debug_message(computerHandChosen);
-					ds_list_delete(computerHand,_r);
-					computerHandChosen.targetX = computerHandChosen.targetX;
-					computerHandChosen.targetY = computerHandChosen.targetY - handYOffset/2;
-					computerHandChosen.faceUp = true;
+					stopwatch=0;
+					if (computerState == PLAY_STATE.SELECT_CARD)
+					{
+						//audio_play_sound(sndPaper, 0, false);
+						randomize();
+						var _r =  int64(random(ds_list_size(computerHand)));
+						computerHandChosen = ds_list_find_value(computerHand,_r);
+						//show_debug_message(computerHandChosen);
+						ds_list_delete(computerHand,_r);
+						computerHandChosen.targetX = computerHandChosen.targetX;
+						computerHandChosen.targetY = computerHandChosen.targetY - handYOffset/2;
+						computerHandChosen.faceUp = true;
 			
-					computerState = PLAY_STATE.SELECT_SLOT;
-				}
-				else if (computerState == PLAY_STATE.SELECT_SLOT)
-				{
-					audio_play_sound(sndPaper, 0, false);
-					randomize();
-					var _empty = GetEmptySlots();
-					var _r =  floor(random(array_length(_empty)));
-					_empty[_r].cardInSlot = computerHandChosen;
-					computerHandChosen.targetX = _empty[_r].x;
-					computerHandChosen.targetY = _empty[_r].y;
-					
-					computerState = PLAY_STATE.SELECT_CARD;
-					
-					if (ds_list_size(objGm.computerHand) > 0)
-					{
-						state = STATE.PLAYER;
-						playerState = PLAY_STATE.SELECT_CARD;
+						computerState = PLAY_STATE.SELECT_SLOT;
 					}
-					else
+					else if (computerState == PLAY_STATE.SELECT_SLOT)
 					{
-						state = STATE.RESULT;
+						audio_play_sound(sndPaper, 0, false);
+						randomize();
+						var _empty = GetEmptySlots();
+						var _r =  floor(random(array_length(_empty)));
+						_empty[_r].cardInSlot = computerHandChosen;
+						computerHandChosen.targetX = _empty[_r].x;
+						computerHandChosen.targetY = _empty[_r].y;
+					
+						computerState = PLAY_STATE.SELECT_CARD;
+					
+						if (ds_list_size(objGm.computerHand) > 0)
+						{
+							state = STATE.PLAYER;
+							playerState = PLAY_STATE.SELECT_CARD;
+						}
+						else
+						{
+							state = STATE.RESULT;
+						}
 					}
 				}
-				
 			}
 			break;
 		

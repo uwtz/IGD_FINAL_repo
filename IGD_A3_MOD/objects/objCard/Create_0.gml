@@ -3,7 +3,7 @@
 faces = array_create(4);
 playedBy = 0; // 1: player; 2: computer
 faceUp = false;
-inPlayerHand = false;
+inHand = HAND_OF.NOONE;
 targetDepth = 0;
 targetX = 0;
 targetY = 0;
@@ -12,6 +12,13 @@ lerpSpd = .15;
 
 hover = false;
 hoverYOffset = objGm.handYOffset * .1;
+
+enum HAND_OF
+{
+	NOONE,
+	PLAYER,
+	COMPUTER
+}
 
 function Update()
 {
@@ -56,7 +63,7 @@ function Update()
 	{
 		if (objGm.playerState == PLAY_STATE.SELECT_CARD || objGm.playerState == PLAY_STATE.SELECT_SLOT)
 		{
-			if (inPlayerHand && objGm.playerHandChosen != id)
+			if (inHand == HAND_OF.PLAYER && objGm.playerHandChosen != id)
 			{
 				if (position_meeting(mouse_x, mouse_y, id) && mouse_check_button_pressed(mb_left))
 				{
@@ -67,12 +74,12 @@ function Update()
 						var c = objGm.playerHandChosen;
 						c.targetY += objGm.handYOffset / 2;
 						ds_list_add(objGm.playerHand, c);
-						c.inPlayerHand = true;
+						c.inHand = HAND_OF.PLAYER;
 					}
 					
 					targetY -= objGm.handYOffset / 2;
 					ds_list_delete(objGm.playerHand, ds_list_find_index(objGm.playerHand, id))
-					inPlayerHand = false;
+					inHand = HAND_OF.NOONE;
 					if (hover)
 					{
 						hover = false;
@@ -81,6 +88,50 @@ function Update()
 					
 					objGm.playerHandChosen = id;
 					objGm.playerState = PLAY_STATE.SELECT_SLOT;
+					//objGm.state = STATE.RESULT;
+				}
+				else if (!hover && position_meeting(mouse_x, mouse_y, id))
+				{
+					hover = true;
+					targetY = targetY - hoverYOffset;
+				}
+				else if (hover && !position_meeting(mouse_x, mouse_y, id))
+				{
+					hover = false;
+					targetY = targetY + hoverYOffset;
+				}
+			}
+		}
+	}
+	else if (objGm.state == STATE.COMPUTER && objGm.multiplayer == true)
+	{
+		if (objGm.computerState == PLAY_STATE.SELECT_CARD || objGm.computerState == PLAY_STATE.SELECT_SLOT)
+		{
+			if (inHand == HAND_OF.COMPUTER && objGm.computerHandChosen != id)
+			{
+				if (position_meeting(mouse_x, mouse_y, id) && mouse_check_button_pressed(mb_left))
+				{
+					//audio_play_sound(sndPaper, 0, false);
+					
+					if (objGm.computerHandChosen != noone)
+					{
+						var c = objGm.computerHandChosen;
+						c.targetY += objGm.handYOffset / 2;
+						ds_list_add(objGm.computerHand, c);
+						c.inHand = HAND_OF.COMPUTER;
+					}
+					
+					targetY -= objGm.handYOffset / 2;
+					ds_list_delete(objGm.computerHand, ds_list_find_index(objGm.computerHand, id))
+					inHand = HAND_OF.NOONE;
+					if (hover)
+					{
+						hover = false;
+						targetY = targetY + hoverYOffset;
+					}
+					
+					objGm.computerHandChosen = id;
+					objGm.computerState = PLAY_STATE.SELECT_SLOT;
 					//objGm.state = STATE.RESULT;
 				}
 				else if (!hover && position_meeting(mouse_x, mouse_y, id))
