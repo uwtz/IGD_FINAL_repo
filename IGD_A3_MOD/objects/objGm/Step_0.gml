@@ -1,6 +1,9 @@
-if (!started)
+if (room == Room1)
 {
-	Start();
-	started = true;
+	if (!started)
+	{
+		Start();
+		started = true;
+	}
+	Update();
 }
-Update();

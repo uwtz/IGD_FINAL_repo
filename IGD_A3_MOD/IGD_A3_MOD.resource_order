@@ -19,8 +19,11 @@
   "ResourceOrderSettings":[
     {"name":"fnt2","order":1,"path":"fonts/fnt2/fnt2.yy",},
     {"name":"objCard","order":1,"path":"objects/objCard/objCard.yy",},
+    {"name":"objHandTransform","order":5,"path":"objects/objHandTransform/objHandTransform.yy",},
     {"name":"objScorePopUp","order":3,"path":"objects/objScorePopUp/objScorePopUp.yy",},
     {"name":"objSlot","order":2,"path":"objects/objSlot/objSlot.yy",},
+    {"name":"objStartScreen","order":4,"path":"objects/objStartScreen/objStartScreen.yy",},
+    {"name":"Room2","order":1,"path":"rooms/Room2/Room2.yy",},
     {"name":"sndCrown","order":4,"path":"sounds/sndCrown/sndCrown.yy",},
     {"name":"sndLose","order":2,"path":"sounds/sndLose/sndLose.yy",},
     {"name":"sndWin","order":1,"path":"sounds/sndWin/sndWin.yy",},

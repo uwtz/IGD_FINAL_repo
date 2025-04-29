@@ -141,10 +141,10 @@ ds_list_shuffle(deck);
 for (var i=0;i<ds_list_size(deck); i++)
 {
 	var card = ds_list_find_value(deck, i)
-	card.targetX = handXOffset;
-	card.targetY  = room_height/2 - deckYOffset*i;
-	card.x = handXOffset;
-	card.y  = room_height/2 - deckYOffset*i;
+	card.targetX = room_width/2;
+	card.targetY  = room_height * .8 - deckYOffset*i;
+	card.x = room_width/2;
+	card.y  = room_height * .5 - deckYOffset*i;
 	card.targetDepth = -i;
 	//show_debug_message(string(ds_list_find_value(deck, i).y) + ", " + string(ds_list_find_value(deck, i).depth));
 }
@@ -205,8 +205,9 @@ function Update()
 					ds_list_delete(deck, ds_list_size(deck)-1);
 					ds_list_add(computerHand, dealtCard);
 			
-					dealtCard.targetX = room_width/2 + (ds_list_size(computerHand)-2.5) * handXOffset;
-					dealtCard.targetY = room_height * .2;
+					dealtCard.targetX = room_width * .2 + (ds_list_size(computerHand)-2.5) * handXOffset;
+					dealtCard.targetY = room_height * .8 + ds_list_size(computerHand) * 20;
+					//dealtCard.targetRot = 
 					dealtCard.inHand = HAND_OF.COMPUTER;
 					dealtCard.faceUp = true;
 					dealtCard.playedBy = 2;
@@ -218,8 +219,8 @@ function Update()
 					ds_list_delete(deck, ds_list_size(deck)-1);
 					ds_list_add(playerHand, dealtCard);
 			
-					dealtCard.targetX = room_width/2 + (ds_list_size(playerHand)-2.5) * handXOffset;
-					dealtCard.targetY = room_height * .8;
+					dealtCard.targetX = room_width * .8 - (ds_list_size(playerHand)-2.5) * handXOffset;
+					dealtCard.targetY = room_height * .8 + ds_list_size(computerHand) * 20;
 					dealtCard.inHand = HAND_OF.PLAYER;
 					dealtCard.faceUp = true;
 					dealtCard.playedBy = 1;
@@ -476,127 +477,11 @@ function Update()
 			}
 			
 			break;
-		
-		/*
-		case STATE.RESULT:
-			stopwatch++;
-			if (stopwatch >= resultCooldown)
-			{
-				computerHandChosen.faceUp = true;
-				//show_debug_message(GetFace(computerHandChosen.faceIndex));
-				//show_debug_message(GetFace(playerHandChosen.faceIndex));
-				computerHandChosen.faceUp = true;
-				if (result == noone)
-				{
-					switch (computerHandChosen.faceIndex)
-					{
-						case FACE.ROCK:
-							if (playerHandChosen.faceIndex == FACE.PAPER)
-							{result = RESULT.WIN;}
-							else if (playerHandChosen.faceIndex == FACE.SCISSOR)
-							{result = RESULT.LOSE;}
-							else
-							{result = RESULT.TIE;}
-							break;
-						case FACE.PAPER:
-							if (playerHandChosen.faceIndex == FACE.SCISSOR)
-							{result = RESULT.WIN;}
-							else if (playerHandChosen.faceIndex == FACE.ROCK)
-							{result = RESULT.LOSE;}
-							else
-							{result = RESULT.TIE;}
-							break;
-						case FACE.SCISSOR:
-							if (playerHandChosen.faceIndex == FACE.ROCK)
-							{result = RESULT.WIN;}
-							else if (playerHandChosen.faceIndex == FACE.PAPER)
-							{result = RESULT.LOSE;}
-							else
-							{result = RESULT.TIE;}
-							break;
-					}
-				
-					switch (result)
-					{
-						case RESULT.WIN:
-							pointPlayer++;
-							audio_play_sound(sndWin, 0, false);
-							show_debug_message("player wins");
-							break;
-						case RESULT.LOSE:
-							pointComputer++;
-							audio_play_sound(sndLose, 0, false);
-							show_debug_message("computer wins");
-							break;
-						case RESULT.TIE:
-							show_debug_message("tied");
-							break;
-					}
-				}
-				
-				if (stopwatch>= resultCooldown*2)
-				{
-					stopwatch = 0;
-					result = noone;
-					state = STATE.CLEANHAND;
-				}
-			}
-			break;
-		*/
-		
-		/*case STATE.CLEANHAND:
-			stopwatch++;
-			if (stopwatch >= cardCooldown)
-			{
-				stopwatch = 0;
-				audio_play_sound(sndPaper, 0, false);
-				if (computerHandChosen != noone)
-				{
-					ds_list_add(computerHand, computerHandChosen);
-					computerHandChosen = noone;
-				}
-				if (playerHandChosen != noone)
-				{
-					ds_list_add(playerHand, playerHandChosen);
-					playerHandChosen = noone;
-				}
-			
-				if (ds_list_size(computerHand) > 0)
-				{
-					var card = ds_list_find_value(computerHand, ds_list_size(computerHand)-1);
-					ds_list_delete(computerHand, ds_list_size(computerHand)-1);
-					ds_list_add(discard, card);
-					card.faceUp = true;
-					card.targetX = room_width-handXOffset;
-					card.targetY = room_height/2 - deckYOffset * (ds_list_size(discard)-1);
-					card.targetDepth = -ds_list_size(discard);
-					card.targetDepth = -(ds_list_size(discard)-1);
-				}
-				else if (ds_list_size(playerHand) > 0)
-				{
-					var card1 = ds_list_find_value(playerHand, ds_list_size(playerHand)-1);
-					ds_list_delete(playerHand, ds_list_size(playerHand)-1);
-					ds_list_add(discard, card1);
-					card1.faceUp = true;
-					card1.inPlayerHand = false;
-					card1.hover = false;
-					card1.targetX = room_width-handXOffset;
-					card1.targetY = room_height/2 - deckYOffset * (ds_list_size(discard)-1);
-					card1.targetDepth = -ds_list_size(discard);
-					card1.targetDepth = -(ds_list_size(discard)-1);
-				}
-			
-				if (ds_list_size(computerHand) == 0 &&
-					ds_list_size(playerHand) == 0)
-				{
-					if (ds_list_size(deck)<6)
-					{state = STATE.SHUFFLE;}
-					else
-					{state = STATE.DEALING;}
-				}
-			}
-			break;
-		*/
-		
 	}
+}
+
+
+function GetHandTransform(i)
+{
+	
 }
