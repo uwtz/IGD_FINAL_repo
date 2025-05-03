@@ -86,6 +86,9 @@ function Update()
 						targetY = targetY + hoverYOffset;
 					}
 					
+					//show_debug_message(GetFaces());
+					//show_debug_message(faces);
+					
 					objGm.playerHandChosen = id;
 					objGm.playerState = PLAY_STATE.SELECT_SLOT;
 					//objGm.state = STATE.RESULT;
@@ -151,32 +154,56 @@ function Update()
 
 function RotateCard(clockwise)
 {
-	var tempArray = array_create(4);
+	//var tempArray = array_create(4);
 	if (clockwise)
 	{
-		show_debug_message("cw");
+		//show_debug_message("cw");
 		targetRot -= 90;
 		
-		for (var i=0; i<array_length(faces); i++)
+		/*for (var i=0; i<array_length(faces); i++)
 		{
 			if (i==array_length(faces)-1)
 			{tempArray[0] = faces[array_length(faces)-1];}
 			else
 			{tempArray[i+1] = faces[i];}
-		}
+		}*/
 	}
 	else if (!clockwise)
 	{
-		show_debug_message("ccw");
+		//show_debug_message("ccw");
 		targetRot += 90;
 		
-		for (var i=0; i<array_length(faces); i++)
+		/*for (var i=0; i<array_length(faces); i++)
 		{
 			if (i==0)
 			{tempArray[array_length(faces)-1] = faces[0];}
 			else
 			{tempArray[i-1] = faces[i];}
-		}
+		}*/
 	}
-	faces = tempArray;
+	show_debug_message(targetRot);
+	//faces = tempArray;
+}
+
+// get face array mod by rotation
+function GetFaces()
+{
+	var rot = (targetRot + 360) mod 360;
+	var offset;
+	switch (rot)
+	{
+		case 0: offset = 0; break;
+		case 90: offset = 1; break;
+		case 180: offset = 2; break;
+		case 270: offset = 3; break;
+	}
+	
+	var len = array_length(faces);
+	var tempArray = array_create(len);
+	for (var i=0; i<len; i++)
+	{
+		tempArray[ (i - offset + len) mod len ] = faces[i];
+	}
+	
+	return tempArray;
 }

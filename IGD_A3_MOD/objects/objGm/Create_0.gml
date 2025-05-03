@@ -174,6 +174,11 @@ function Start()
 			if (_yc >= 3) {_yc = 0;}
 		}
 	}
+	
+	with (objHandTransform)
+	{
+		objGm.SetHandTransform(cardTransformId, id);
+	}
 }
 
 /*
@@ -198,32 +203,38 @@ function Update()
 			{
 				stopwatch=0;
 				
-				if (ds_list_size(computerHand) < 4)
-				{
-					audio_play_sound(sndPaper, 0, false);
-					var dealtCard = ds_list_find_value(deck, ds_list_size(deck)-1);
-					ds_list_delete(deck, ds_list_size(deck)-1);
-					ds_list_add(computerHand, dealtCard);
-			
-					dealtCard.targetX = room_width * .2 + (ds_list_size(computerHand)-2.5) * handXOffset;
-					dealtCard.targetY = room_height * .8 + ds_list_size(computerHand) * 20;
-					//dealtCard.targetRot = 
-					dealtCard.inHand = HAND_OF.COMPUTER;
-					dealtCard.faceUp = true;
-					dealtCard.playedBy = 2;
-				}
-				else if (ds_list_size(playerHand) < 4)
+				if (ds_list_size(playerHand) < 4)
 				{
 					audio_play_sound(sndPaper, 0, false);
 					var dealtCard = ds_list_find_value(deck, ds_list_size(deck)-1);
 					ds_list_delete(deck, ds_list_size(deck)-1);
 					ds_list_add(playerHand, dealtCard);
 			
-					dealtCard.targetX = room_width * .8 - (ds_list_size(playerHand)-2.5) * handXOffset;
-					dealtCard.targetY = room_height * .8 + ds_list_size(computerHand) * 20;
 					dealtCard.inHand = HAND_OF.PLAYER;
 					dealtCard.faceUp = true;
 					dealtCard.playedBy = 1;
+					
+					var transform = GetHandTransform(ds_list_size(playerHand)-1);
+					dealtCard.targetX = transform.x;
+					dealtCard.targetY = transform.y;
+					dealtCard.targetRot = transform.image_angle;
+					
+				}
+				else if (ds_list_size(computerHand) < 4)
+				{
+					audio_play_sound(sndPaper, 0, false);
+					var dealtCard = ds_list_find_value(deck, ds_list_size(deck)-1);
+					ds_list_delete(deck, ds_list_size(deck)-1);
+					ds_list_add(computerHand, dealtCard);
+			
+					dealtCard.inHand = HAND_OF.COMPUTER;
+					dealtCard.faceUp = true;
+					dealtCard.playedBy = 2;
+					
+					var transform = GetHandTransform(ds_list_size(computerHand)-1);
+					dealtCard.targetX = room_width - transform.x;
+					dealtCard.targetY = transform.y;
+					dealtCard.targetRot = transform.image_angle;
 				}
 				else
 				{
@@ -304,8 +315,8 @@ function Update()
 				var slot2 = slots[edge[1][0]];
 				var card1 = slot1.cardInSlot;
 				var card2 = slot2.cardInSlot;
-				var face1 = card1.faces[edge[0][1]];
-				var face2 = card2.faces[edge[1][1]];
+				var face1 = card1.GetFaces()[edge[0][1]];
+				var face2 = card2.GetFaces()[edge[1][1]];
 				
 				var rps_result =
 				[
@@ -481,7 +492,16 @@ function Update()
 }
 
 
+
+
+handTransforms = array_create(4, noone);
+
 function GetHandTransform(i)
 {
-	
+	return handTransforms[i];
+}
+
+function SetHandTransform(i, _id)
+{
+	handTransforms[i] = _id;
 }

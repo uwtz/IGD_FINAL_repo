@@ -27,37 +27,54 @@ draw_self();
 
 if (faceUp)
 {
-	for (var i=0; i<array_length(faces); i++)
-	{
-		var spr;
-		//show_debug_message(faces);
-		switch (faces[i])
-		{
-			case FACE.ROCK:
-				spr = sprRockIcon;
-				break;
-			case FACE.PAPER:
-				spr = sprPaperIcon;
-				break;
-			case FACE.SCISSOR:
-				spr = sprScissorIcon;
-				break;
-		}
-	
-		switch (i)
-		{
-			case 0:
-				draw_sprite_ext(spr, 0, x+0, y-20, 1.2, 1.2, 0, c_white, 1);
-				break;
-			case 1:
-				draw_sprite_ext(spr, 0, x+20, y+0, 1.2, 1.2, 270, c_white, 1);
-				break;
-			case 2:
-				draw_sprite_ext(spr, 0, x+0, y+20, 1.2, 1.2, 180, c_white, 1);
-				break;
-			case 3:
-				draw_sprite_ext(spr, 0, x-20, y+0, 1.2, 1.2, 90, c_white, 1);
-				break;
-		}
-	}
+	var card_rotation = image_angle;
+    var icon_distance = 20; // how far each face is from center
+    var icon_scale = 1.2;
+
+    for (var i = 0; i < array_length(faces); i++)
+    {
+        var spr;
+        switch (faces[i])
+        {
+            case FACE.ROCK:
+                spr = sprRockIcon;
+                break;
+            case FACE.PAPER:
+                spr = sprPaperIcon;
+                break;
+            case FACE.SCISSOR:
+                spr = sprScissorIcon;
+                break;
+        }
+
+        // Calculate base angle for this face
+        var base_angle;
+        switch (i)
+        {
+            case 0: base_angle = 90; break; // top
+            case 1: base_angle = 0; break;   // right
+            case 2: base_angle = 270; break;  // bottom
+            case 3: base_angle = 180; break; // left
+        }
+
+        // Final angle considering the card's rotation
+        var final_angle = card_rotation + base_angle;
+
+        // Calculate rotated position
+        var dx = lengthdir_x(icon_distance, final_angle);
+        var dy = lengthdir_y(icon_distance, final_angle);
+
+        // Draw the sprite
+        draw_sprite_ext(
+            spr,
+            0,
+            x + dx,
+            y + dy,
+            icon_scale,
+            icon_scale,
+            final_angle,
+            c_white,
+            1
+        );
+    }
 }

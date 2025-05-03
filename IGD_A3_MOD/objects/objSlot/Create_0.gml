@@ -25,6 +25,8 @@ function Update()
 					
 					objGm.playerHandChosen = noone;
 					
+					//show_debug_message(objGm.playerHandChosen.GetFaces());
+					
 					if (ds_list_size(objGm.computerHand) > 0)
 					{
 						objGm.state = STATE.COMPUTER;
