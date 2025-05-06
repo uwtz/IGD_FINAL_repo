@@ -24,6 +24,8 @@
     {"name":"objCrownCounterComputer","order":8,"path":"objects/objCrownCounterComputer/objCrownCounterComputer.yy",},
     {"name":"objCrownCounterPlayer","order":7,"path":"objects/objCrownCounterPlayer/objCrownCounterPlayer.yy",},
     {"name":"objHandTransform","order":5,"path":"objects/objHandTransform/objHandTransform.yy",},
+    {"name":"objRotateL","order":10,"path":"objects/objRotateL/objRotateL.yy",},
+    {"name":"objRotateR","order":11,"path":"objects/objRotateR/objRotateR.yy",},
     {"name":"objScorePopUp","order":3,"path":"objects/objScorePopUp/objScorePopUp.yy",},
     {"name":"objSlot","order":2,"path":"objects/objSlot/objSlot.yy",},
     {"name":"objStartScreen","order":4,"path":"objects/objStartScreen/objStartScreen.yy",},

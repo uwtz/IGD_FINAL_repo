@@ -1,5 +1,5 @@
 // ANY REFERENCE TO COMPUTER REFERES TO PLAYER2 IN CASE OF MULTIPLAYER
-show_debug_message(global.multiplayer);
+//show_debug_message(global.multiplayer);
 
 handXOffset = sprite_get_width(sprCardBack) + 10;
 handYOffset = sprite_get_height(sprCardBack) + 10;
@@ -423,12 +423,16 @@ function Update()
 				if (stopwatch >= 160)
 				{
 					stopwatch = 0;
+					
+					with (objScorePopUp)
+					{instance_destroy(id);}
+					
 					state = STATE.CLEANHAND;
 				}
 				
 				if (ds_list_size(crownInst) <= 0 && stopwatch >= 100)
 				{
-					show_debug_message(roundScore);
+					//show_debug_message(roundScore);
 					if (roundScore[0]>roundScore[1])
 					{
 						pointPlayer++;
@@ -449,21 +453,26 @@ function Update()
 				{
 					stopwatch = 0;
 					var crown = crownInst[| 0];
-				
 					ds_list_delete(crownInst, 0);
+					
 					if (crown.clr == c_white)
 					{
-					
+						stopwatch = 20;
 					}
 					else if (crown.clr == c_blue)
 					{
 						objCrownCounterPlayer.count++;
+						crown.SetTargetLoc(objCrownCounterPlayer.x, objCrownCounterPlayer.y);
+						crown.destroyOnTarget = true;
+						//show_debug_message(string(crown)+" to (" + string(crown.targetX) + ", " + string(crown.targetY) + "). Counter At: (" + string(objCrownCounterPlayer.x) + ", " + string(objCrownCounterPlayer.y) + ")");
 					}
 					else if (crown.clr == c_red)
 					{
 						objCrownCounterComputer.count++;
+						crown.SetTargetLoc(objCrownCounterComputer.x, objCrownCounterComputer.y);
+						crown.destroyOnTarget = true;
 					}
-					instance_destroy(crown);
+					
 				}
 				
 			}

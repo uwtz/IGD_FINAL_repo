@@ -44,6 +44,8 @@
     {"id":{"name":"objCrownCounterPlayer","path":"objects/objCrownCounterPlayer/objCrownCounterPlayer.yy",},},
     {"id":{"name":"objGm","path":"objects/objGm/objGm.yy",},},
     {"id":{"name":"objHandTransform","path":"objects/objHandTransform/objHandTransform.yy",},},
+    {"id":{"name":"objRotateL","path":"objects/objRotateL/objRotateL.yy",},},
+    {"id":{"name":"objRotateR","path":"objects/objRotateR/objRotateR.yy",},},
     {"id":{"name":"objScorePopUp","path":"objects/objScorePopUp/objScorePopUp.yy",},},
     {"id":{"name":"objSlot","path":"objects/objSlot/objSlot.yy",},},
     {"id":{"name":"objStartScreen","path":"objects/objStartScreen/objStartScreen.yy",},},

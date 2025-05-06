@@ -1,3 +1,30 @@
 clr = c_white;
-txt = "";
 audio_play_sound(sndCrown, 0, false);
+
+lerpSpd = .2;
+targetX = x;
+targetY = y;
+destroyOnTarget = false;
+
+function Update()
+{
+	// lerping
+	if (abs(x-targetX)>1)
+	{x = lerp(x,targetX,lerpSpd);}
+	else {x = targetX;}
+	
+	if (abs(y-targetY)>1)
+	{y = lerp(y,targetY,lerpSpd);}
+	else {y = targetY;}
+	
+	if (destroyOnTarget && x == targetX && y == targetY)
+	{
+		instance_destroy(self);
+	}
+}
+
+function SetTargetLoc(_x, _y)
+{
+	targetX = _x;
+	targetY = _y;
+}
