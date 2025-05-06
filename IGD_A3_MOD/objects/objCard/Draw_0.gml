@@ -3,7 +3,9 @@ depth = targetDepth;
 //if (faceIndex == FACE.ROCK) {sprite_index = sprRock;}
 //if (faceIndex == FACE.PAPER) {sprite_index = sprPaper;}
 //if (faceIndex == FACE.SCISSOR) {sprite_index = sprScissor;}
-if (!faceUp) {sprite_index = sprCardBack;}
+
+
+/*if (!faceUp) {sprite_index = sprCardBack;}
 else
 {
 	switch (playedBy)
@@ -18,18 +20,25 @@ else
 			sprite_index = sprCardFront2;
 			break;
 	}
-}
+}*/
 
 //draw_sprite(sprite_index, image_index, x, y);
+
+if (!faceUp) {sprite_index = sprCardBack;}
+else{sprite_index = sprCardFront;}
 draw_self();
 
 
 
 if (faceUp)
 {
+	
+	
+	var icon_index = playedBy;
 	var card_rotation = image_angle;
     var icon_distance = 20; // how far each face is from center
     var icon_scale = 1.2;
+
 
     for (var i = 0; i < array_length(faces); i++)
     {
@@ -67,12 +76,12 @@ if (faceUp)
         // Draw the sprite
         draw_sprite_ext(
             spr,
-            0,
+            icon_index,
             x + dx,
             y + dy,
             icon_scale,
             icon_scale,
-            final_angle,
+            final_angle-90,
             c_white,
             1
         );

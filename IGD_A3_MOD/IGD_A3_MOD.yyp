@@ -31,14 +31,17 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.1.193",
+    "IDEVersion":"2024.13.0.190",
   },
   "name":"IGD_A3_MOD",
   "resources":[
     {"id":{"name":"fnt1","path":"fonts/fnt1/fnt1.yy",},},
     {"id":{"name":"fnt2","path":"fonts/fnt2/fnt2.yy",},},
+    {"id":{"name":"fnt3","path":"fonts/fnt3/fnt3.yy",},},
     {"id":{"name":"objCard","path":"objects/objCard/objCard.yy",},},
     {"id":{"name":"objCrownCounter","path":"objects/objCrownCounter/objCrownCounter.yy",},},
+    {"id":{"name":"objCrownCounterComputer","path":"objects/objCrownCounterComputer/objCrownCounterComputer.yy",},},
+    {"id":{"name":"objCrownCounterPlayer","path":"objects/objCrownCounterPlayer/objCrownCounterPlayer.yy",},},
     {"id":{"name":"objGm","path":"objects/objGm/objGm.yy",},},
     {"id":{"name":"objHandTransform","path":"objects/objHandTransform/objHandTransform.yy",},},
     {"id":{"name":"objScorePopUp","path":"objects/objScorePopUp/objScorePopUp.yy",},},

@@ -22,7 +22,7 @@ enum HAND_OF
 
 function Update()
 {
-	if (objGm.playerHandChosen == id || objGm.computerHandChosen == id)
+	if (objGm.playerHandChosen == id || (objGm.computerHandChosen == id && global.multiplayer))
 	{
 		if (keyboard_check_pressed(vk_left))
 		{RotateCard(false);}

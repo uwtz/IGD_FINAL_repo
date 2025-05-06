@@ -46,7 +46,7 @@ function Update()
 		}
 	}
 	
-	else if (objGm.state == STATE.COMPUTER && objGm.multiplayer == true)
+	else if (objGm.state == STATE.COMPUTER && global.multiplayer == true)
 	{
 		if (objGm.computerState == PLAY_STATE.SELECT_SLOT && cardInSlot == noone)
 		{

@@ -1,5 +1,5 @@
 // ANY REFERENCE TO COMPUTER REFERES TO PLAYER2 IN CASE OF MULTIPLAYER
-
+show_debug_message(global.multiplayer);
 
 handXOffset = sprite_get_width(sprCardBack) + 10;
 handYOffset = sprite_get_height(sprCardBack) + 10;
@@ -43,6 +43,8 @@ enum STATE
 }
 
 state = STATE.DEALING;
+
+yuh = 0;
 
 pointPlayer = 0;
 pointComputer = 0;
@@ -106,7 +108,7 @@ edges =
 
 roundScore = array_create(2);
 
-crownInst = array_create(0);
+crownInst = ds_list_create();
 
 function GetFace(i)
 {
@@ -144,7 +146,7 @@ for (var i=0;i<ds_list_size(deck); i++)
 {
 	var card = ds_list_find_value(deck, i)
 	card.targetX = room_width/2;
-	card.targetY  = room_height * .8 - deckYOffset*i;
+	card.targetY  = room_height * .82 - deckYOffset*i;
 	card.x = room_width/2;
 	card.y  = room_height * .5 - deckYOffset*i;
 	card.targetDepth = -i;
@@ -253,6 +255,7 @@ function Update()
 					dealtCard.targetY = slots[4].y;
 					dealtCard.faceUp = true;
 					state = STATE.PLAYER;
+					stopwatch = 0;
 					playerState = PLAY_STATE.SELECT_CARD;
 				}
 			}
@@ -265,9 +268,9 @@ function Update()
 		
 		
 		case STATE.COMPUTER:
-			stopwatch++;
 			if (!global.multiplayer)
 			{
+				stopwatch++;
 				if (stopwatch >= computerCooldown)
 				{
 					stopwatch=0;
@@ -304,6 +307,7 @@ function Update()
 						}
 						else
 						{
+							stopwatch = 0;
 							state = STATE.RESULT;
 						}
 					}
@@ -313,84 +317,117 @@ function Update()
 		
 		case STATE.RESULT:
 			stopwatch++;
-			if (stopwatch >= 20 && edger < array_length(edges))
+			
+			if (yuh == 0)
 			{
-				stopwatch = 0;
+				if (stopwatch >= 50)
+				{
+					stopwatch = 0;
+					yuh = 1;
+				}
+			}
+			else if (yuh == 1)
+			{
+				if (stopwatch >= 20 && edger < array_length(edges))
+				{
+					stopwatch = 0;
 				
-				var edge = edges[edger];
-				var slot1 = slots[edge[0][0]];
-				var slot2 = slots[edge[1][0]];
-				var card1 = slot1.cardInSlot;
-				var card2 = slot2.cardInSlot;
-				var face1 = card1.GetFaces()[edge[0][1]];
-				var face2 = card2.GetFaces()[edge[1][1]];
+					var edge = edges[edger];
+					var slot1 = slots[edge[0][0]];
+					var slot2 = slots[edge[1][0]];
+					var card1 = slot1.cardInSlot;
+					var card2 = slot2.cardInSlot;
+					var face1 = card1.GetFaces()[edge[0][1]];
+					var face2 = card2.GetFaces()[edge[1][1]];
 				
-				var rps_result =
-				[
-					[0, 2, 1], // ROCK:    ROCK, PAPER, SCISSOR
-					[1, 0, 2], // PAPER:   ROCK, PAPER, SCISSOR
-					[2, 1, 0]  // SCISSOR: ROCK, PAPER, SCISSOR
-				];
+					var rps_result =
+					[
+						[0, 2, 1], // ROCK:    ROCK, PAPER, SCISSOR
+						[1, 0, 2], // PAPER:   ROCK, PAPER, SCISSOR
+						[2, 1, 0]  // SCISSOR: ROCK, PAPER, SCISSOR
+					];
 
-				var winningCard = rps_result[face1][face2]; //0 tie; 1 face1; 2 face2;
-				var winningPlayer = 0;
+					var winningCard = rps_result[face1][face2]; //0 tie; 1 face1; 2 face2;
+					var winningPlayer = 0;
 				
-				if (winningCard == 1)
-				{
-					if (card1.playedBy==1)
+					if (winningCard == 1)
 					{
-						roundScore[0]++;
-						winningPlayer = 1;
+						if (card1.playedBy==1)
+						{
+							roundScore[0]++;
+							winningPlayer = 1;
+						}
+						else if (card1.playedBy==2)
+						{
+							roundScore[1]++;
+							winningPlayer = 2;
+						}
 					}
-					else if (card1.playedBy==2)
+					else if (winningCard == 2)
 					{
-						roundScore[1]++;
-						winningPlayer = 2;
+						if (card2.playedBy==1)
+						{
+							roundScore[0]++;
+							winningPlayer = 1;
+						}
+						else if (card2.playedBy==2)
+						{
+							roundScore[1]++;
+							winningPlayer = 2;
+						}
 					}
-				}
-				else if (winningCard == 2)
-				{
-					if (card2.playedBy==1)
+				
+					var s = instance_create_depth((slot1.x+slot2.x)/2, (slot1.y+slot2.y)/2, 0, objScorePopUp);
+					ds_list_add(crownInst, s);
+				
+				
+					if (winningPlayer == 1)
 					{
-						roundScore[0]++;
-						winningPlayer = 1;
+						s.clr = c_blue;
+						s.txt = "+1";
 					}
-					else if (card2.playedBy==2)
+					else if (winningPlayer == 2)
 					{
-						roundScore[1]++;
-						winningPlayer = 2;
+						s.clr = c_red;
+						s.txt = "+1";
 					}
-				}
+					else if (winningPlayer == 0)
+					{
+						s.clr = c_white;
+						s.txt = "+0";
+					}
+					//show_debug_message("Card1: " + string(card1.faces) + ", Card2: " + string(card2.faces));
+					//show_debug_message("Result: " + string(winningCard));
 				
-				var s = instance_create_depth((slot1.x+slot2.x)/2, (slot1.y+slot2.y)/2, 0, objScorePopUp);
-				array_push(crownInst, s);
-				
-				
-				if (winningPlayer == 1)
-				{
-					s.clr = c_blue;
-					s.txt = "+1";
+					edger++;
 				}
-				else if (winningPlayer == 2)
-				{
-					s.clr = c_red;
-					s.txt = "+1";
-				}
-				else if (winningPlayer == 0)
-				{
-					s.clr = c_white;
-					s.txt = "+0";
-				}
-				//show_debug_message("Card1: " + string(card1.faces) + ", Card2: " + string(card2.faces));
-				//show_debug_message("Result: " + string(winningCard));
-				
-				edger++;
+			
+				if (stopwatch >= 30 && edger >= array_length(edges))
+					{
+						edger = 0;
+						yuh = 0;
+						stopwatch = 0;
+					
+						state = STATE.RESULTCROWN;
+					}
 			}
 			
-			if (stopwatch >= 180 && edger >= array_length(edges))
+			break;
+			
+		case STATE.RESULTCROWN:
+		
+			stopwatch++;
+			
+			if (stopwatch >= 20)
+			{
+				if (stopwatch >= 160)
 				{
-					edger = 0;
-					
+					stopwatch = 0;
+					state = STATE.CLEANHAND;
+				}
+				
+				if (ds_list_size(crownInst) <= 0 && stopwatch >= 100)
+				{
 					show_debug_message(roundScore);
 					if (roundScore[0]>roundScore[1])
 					{
@@ -400,21 +437,36 @@ function Update()
 					else if (roundScore[0]<roundScore[1])
 					{
 						pointComputer++;
-						audio_play_sound(sndLose, 0, false);
+						if (!global.multiplayer){audio_play_sound(sndLose, 0, false);}
 					}
 					roundScore = array_create(2);
 					
-					stopwatch = 0;
-					
-					state = STATE.CLEANHAND;
+					objCrownCounterPlayer.count = 0;
+					objCrownCounterComputer.count = 0;
 				}
-			
-			break;
-			
-		case STATE.RESULTCROWN:
-		
-			with(objScorePopUp)
-			{instance_destroy(id);}
+				
+				else if (ds_list_size(crownInst) > 0)
+				{
+					stopwatch = 0;
+					var crown = crownInst[| 0];
+				
+					ds_list_delete(crownInst, 0);
+					if (crown.clr == c_white)
+					{
+					
+					}
+					else if (crown.clr == c_blue)
+					{
+						objCrownCounterPlayer.count++;
+					}
+					else if (crown.clr == c_red)
+					{
+						objCrownCounterComputer.count++;
+					}
+					instance_destroy(crown);
+				}
+				
+			}
 			
 			break;
 		
@@ -437,8 +489,8 @@ function Update()
 					slots[k].cardInSlot = noone;
 					ds_list_add(deck, card);
 				
-					card.targetX = handXOffset;
-					card.targetY = room_height/2 - deckYOffset*(ds_list_size(deck)-1);
+					card.targetX = room_width/2;
+					card.targetY  = room_height * .82 - deckYOffset*(ds_list_size(deck)-1);
 					card.targetDepth = -(ds_list_size(deck)-1);
 					card.faceUp = false;
 					card.playedBy = 0;
@@ -489,8 +541,8 @@ function Update()
 				if (n>0)
 				{
 					var card = ds_list_find_value(deck, n-1);
-					card.targetX = handXOffset;
-					card.targetY  = room_height/2 - deckYOffset*n;
+					card.targetX = room_width/2;
+					card.targetY  = room_height * .82 - deckYOffset*n;
 					card.targetDepth = -(n-1);
 					n--;
 				}
