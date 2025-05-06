@@ -1,4 +1,3 @@
-multiplayer = true;
 // ANY REFERENCE TO COMPUTER REFERES TO PLAYER2 IN CASE OF MULTIPLAYER
 
 
@@ -38,6 +37,7 @@ enum STATE
 	COMPUTER,
 	PLAYER,
 	RESULT,
+	RESULTCROWN,
 	CLEANHAND,
 	SHUFFLE
 }
@@ -105,6 +105,8 @@ edges =
 ];
 
 roundScore = array_create(2);
+
+crownInst = array_create(0);
 
 function GetFace(i)
 {
@@ -195,6 +197,11 @@ score when board is full
 
 function Update()
 {
+	if (keyboard_check_pressed(vk_escape))
+	{
+		room_goto(room2);
+	}
+	
 	switch (state)
 	{
 		case STATE.DEALING:
@@ -259,7 +266,7 @@ function Update()
 		
 		case STATE.COMPUTER:
 			stopwatch++;
-			if (!multiplayer)
+			if (!global.multiplayer)
 			{
 				if (stopwatch >= computerCooldown)
 				{
@@ -356,6 +363,9 @@ function Update()
 				}
 				
 				var s = instance_create_depth((slot1.x+slot2.x)/2, (slot1.y+slot2.y)/2, 0, objScorePopUp);
+				array_push(crownInst, s);
+				
+				
 				if (winningPlayer == 1)
 				{
 					s.clr = c_blue;
@@ -394,11 +404,17 @@ function Update()
 					}
 					roundScore = array_create(2);
 					
-					with(objScorePopUp)
-					{instance_destroy(id);}
+					stopwatch = 0;
 					
 					state = STATE.CLEANHAND;
 				}
+			
+			break;
+			
+		case STATE.RESULTCROWN:
+		
+			with(objScorePopUp)
+			{instance_destroy(id);}
 			
 			break;
 		

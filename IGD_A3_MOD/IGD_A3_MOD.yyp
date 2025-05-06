@@ -31,13 +31,14 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.0.190",
+    "IDEVersion":"2024.13.1.193",
   },
   "name":"IGD_A3_MOD",
   "resources":[
     {"id":{"name":"fnt1","path":"fonts/fnt1/fnt1.yy",},},
     {"id":{"name":"fnt2","path":"fonts/fnt2/fnt2.yy",},},
     {"id":{"name":"objCard","path":"objects/objCard/objCard.yy",},},
+    {"id":{"name":"objCrownCounter","path":"objects/objCrownCounter/objCrownCounter.yy",},},
     {"id":{"name":"objGm","path":"objects/objGm/objGm.yy",},},
     {"id":{"name":"objHandTransform","path":"objects/objHandTransform/objHandTransform.yy",},},
     {"id":{"name":"objScorePopUp","path":"objects/objScorePopUp/objScorePopUp.yy",},},
@@ -45,6 +46,7 @@
     {"id":{"name":"objStartScreen","path":"objects/objStartScreen/objStartScreen.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
+    {"id":{"name":"Script1","path":"scripts/Script1/Script1.yy",},},
     {"id":{"name":"sndCrown","path":"sounds/sndCrown/sndCrown.yy",},},
     {"id":{"name":"sndLose","path":"sounds/sndLose/sndLose.yy",},},
     {"id":{"name":"sndPaper","path":"sounds/sndPaper/sndPaper.yy",},},

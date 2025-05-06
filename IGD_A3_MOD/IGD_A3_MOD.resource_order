@@ -19,6 +19,7 @@
   "ResourceOrderSettings":[
     {"name":"fnt2","order":1,"path":"fonts/fnt2/fnt2.yy",},
     {"name":"objCard","order":1,"path":"objects/objCard/objCard.yy",},
+    {"name":"objCrownCounter","order":6,"path":"objects/objCrownCounter/objCrownCounter.yy",},
     {"name":"objHandTransform","order":5,"path":"objects/objHandTransform/objHandTransform.yy",},
     {"name":"objScorePopUp","order":3,"path":"objects/objScorePopUp/objScorePopUp.yy",},
     {"name":"objSlot","order":2,"path":"objects/objSlot/objSlot.yy",},
