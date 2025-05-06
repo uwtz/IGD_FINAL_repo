@@ -293,7 +293,7 @@ function Update()
 						audio_play_sound(sndPaper, 0, false);
 						randomize();
 						var _empty = GetEmptySlots();
-						var _r =  floor(random(array_length(_empty)));
+						var _r = floor(random(array_length(_empty)));
 						_empty[_r].cardInSlot = computerHandChosen;
 						computerHandChosen.targetX = _empty[_r].x;
 						computerHandChosen.targetY = _empty[_r].y;

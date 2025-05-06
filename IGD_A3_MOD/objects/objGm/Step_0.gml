@@ -7,4 +7,4 @@ if (room == Room1)
 	}
 	Update();
 }
-show_debug_message("Player Hand: " + string(ds_list_size(objGm.playerHand)) + " Computer Hand: " + string(ds_list_size(objGm.computerHand)));
+show_debug_message("Player Hand: " + string(ds_list_size(objGm.playerHand)) + "\nComputer Hand: " + string(ds_list_size(objGm.computerHand)));

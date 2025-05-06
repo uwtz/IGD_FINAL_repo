@@ -78,7 +78,8 @@ function Update()
 					}
 					
 					targetY -= objGm.handYOffset / 2;
-					ds_list_delete(objGm.playerHand, ds_list_find_index(objGm.playerHand, id))
+					
+					ds_list_delete(objGm.playerHand, GetCardIndex(id, objGm.playerHand));
 					inHand = HAND_OF.NOONE;
 					if (hover)
 					{
@@ -125,7 +126,7 @@ function Update()
 					}
 					
 					targetY -= objGm.handYOffset / 2;
-					ds_list_delete(objGm.computerHand, ds_list_find_index(objGm.computerHand, id))
+					ds_list_delete(objGm.computerHand, GetCardIndex(id, objGm.computerHand));
 					inHand = HAND_OF.NOONE;
 					if (hover)
 					{
@@ -181,7 +182,7 @@ function RotateCard(clockwise)
 			{tempArray[i-1] = faces[i];}
 		}*/
 	}
-	show_debug_message(targetRot);
+	//show_debug_message(targetRot);
 	//faces = tempArray;
 }
 
@@ -206,4 +207,19 @@ function GetFaces()
 	}
 	
 	return tempArray;
+}
+
+function GetCardIndex(_id, _hand)
+{
+	var idx = -1;
+	for (var i = 0; i < ds_list_size(_hand); i++)
+	{
+		var inst = ds_list_find_value(_hand, i);
+		if (inst.id == _id)
+		{
+			idx = i;
+			break;
+		}
+	}
+	return idx;
 }
