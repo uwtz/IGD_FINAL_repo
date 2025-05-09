@@ -442,6 +442,7 @@ function Update()
 					{
 						pointComputer++;
 						if (!global.multiplayer){audio_play_sound(sndLose, 0, false);}
+						else {audio_play_sound(sndWin, 0, false);}
 					}
 					roundScore = array_create(2);
 					
@@ -463,6 +464,7 @@ function Update()
 					{
 						objCrownCounterPlayer.count++;
 						crown.SetTargetLoc(objCrownCounterPlayer.x, objCrownCounterPlayer.y);
+						crown.targetCounter = objCrownCounterPlayer;
 						crown.destroyOnTarget = true;
 						//show_debug_message(string(crown)+" to (" + string(crown.targetX) + ", " + string(crown.targetY) + "). Counter At: (" + string(objCrownCounterPlayer.x) + ", " + string(objCrownCounterPlayer.y) + ")");
 					}
@@ -470,6 +472,7 @@ function Update()
 					{
 						objCrownCounterComputer.count++;
 						crown.SetTargetLoc(objCrownCounterComputer.x, objCrownCounterComputer.y);
+						crown.targetCounter = objCrownCounterComputer;
 						crown.destroyOnTarget = true;
 					}
 					

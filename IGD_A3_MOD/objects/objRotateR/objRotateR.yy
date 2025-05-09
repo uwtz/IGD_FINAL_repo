@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprP2",
-    "path":"sprites/sprP2/sprP2.yy",
+    "name":"sprRightArrow",
+    "path":"sprites/sprRightArrow/sprRightArrow.yy",
   },
   "spriteMaskId":null,
   "visible":true,
