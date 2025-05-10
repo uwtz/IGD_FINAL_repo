@@ -2,8 +2,8 @@
 shader_set(marble_shader);
 
 var t = current_time * 0.001;
-var w = display_get_width();
-var h = display_get_height();
+var w = 1200;
+var h = 800;
 
 shader_set_uniform_f(shader_get_uniform(marble_shader, "u_time"), t);
 shader_set_uniform_f(shader_get_uniform(marble_shader, "u_resolution"), w, h);

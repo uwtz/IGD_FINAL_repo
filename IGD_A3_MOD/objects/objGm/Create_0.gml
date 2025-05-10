@@ -1,6 +1,5 @@
 // ANY REFERENCE TO COMPUTER REFERES TO PLAYER2 IN CASE OF MULTIPLAYER
 //show_debug_message(global.multiplayer);
-
 handXOffset = sprite_get_width(sprCardBack) + 10;
 handYOffset = sprite_get_height(sprCardBack) + 10;
 deckYOffset = 4;
