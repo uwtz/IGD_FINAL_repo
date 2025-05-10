@@ -1,13 +1,13 @@
 {
   "$GMObject":"",
-  "%Name":"objRotateL",
+  "%Name":"objButton",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":75,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"objRotateL",
+  "name":"objButton",
   "overriddenProperties":[],
   "parent":{
     "name":"Objects",
@@ -27,13 +27,16 @@
   "physicsShape":1,
   "physicsShapePoints":[],
   "physicsStartAwake":true,
-  "properties":[],
+  "properties":[
+    {"$GMObjectProperty":"v1","%Name":"txt","filters":[],"listItems":[],"multiselect":false,"name":"txt","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"\"no text here\"","varType":2,},
+    {"$GMObjectProperty":"v1","%Name":"mult","filters":[],"listItems":[],"multiselect":false,"name":"mult","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"False","varType":3,},
+  ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprLeftArrow",
-    "path":"sprites/sprLeftArrow/sprLeftArrow.yy",
+    "name":"sprButton",
+    "path":"sprites/sprButton/sprButton.yy",
   },
   "spriteMaskId":null,
   "visible":true,

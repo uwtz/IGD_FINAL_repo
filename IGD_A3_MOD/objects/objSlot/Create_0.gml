@@ -3,7 +3,7 @@ coord = array_create(2);
 maxScale = 1.2;
 targetScale = maxScale;
 
-image_alpha = .5;
+image_alpha = .1;
 
 function Update()
 {

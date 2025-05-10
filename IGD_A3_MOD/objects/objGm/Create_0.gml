@@ -201,7 +201,7 @@ function Update()
 {
 	if (keyboard_check_pressed(vk_escape))
 	{
-		room_goto(room2);
+		room_goto(Room2);
 	}
 	
 	switch (state)
